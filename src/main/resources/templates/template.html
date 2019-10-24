@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html 
+		   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+		   xmlns:th="http://www.thymleaf.com"
+		   layout:decorator="template">
+
+	<head th:fragment="head" >
+		   
+		<meta charset="utf-8">
+		<title>Bank | index</title>
+		<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" 
+											   th:href=@{css/bootstrap.min.css}       />
+	</head>
+	
+	<body >
+		<header th:fragment="navbar">
+			<div class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<ul class="nav navbar-nav">
+						<li th:class="active"><a th:href="@{/home}" ><label>My Bank Account</label></a></li>
+						<li><a th:href="@{/index}">Operations</a></li>
+					</ul>
+					<ul class="nav navbar-right navbar-nav">
+						<li><a th:href="@{/login?logout}">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<footer class="navbar-fixed-bottom" th:fragment="footer">
+			<hr>
+			<div class="container">
+				<small>
+					Copyright Taha2018
+				</small>
+			</div>
+		</footer>
+	</body>
+	
+</html>

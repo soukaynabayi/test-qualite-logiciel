@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html 	   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+		   xmlns:th="http://www.thymleaf.com"
+		   layout:decorator="template">
+
+	<head th:replace="template::head" ></head>
+	
+	<body>
+		<header th:replace="template::navbar"></header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-primary">
+							<div class="panel panel-heading">
+								Consulter Un Compte
+							</div>
+							<div class="panel panel-body" style="margin-left:2px">
+								<form th:action="@{/consultation}" method="get">
+									<div>
+										<label>Numero de compte</label>
+										<input type="text" name="codeCompte"/>
+										<input type="submit" value="Consulter" class="btn btn-primary"/>
+									</div>
+								</form>
+								<div class="text-danger" th:if="${exception}" th:text="${exception.message}">
+							
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel panel-primary" th:if="${compte}">
+							<div class="panel panel-heading">
+								Information Sur Le Compte
+							</div>
+							<div class="panel panel-body" style="margin-left:2px">
+								<div>
+									<label>Numero de compte : </label>
+									<label th:text="${compte.codeCompte}" ></label>
+								</div>
+								<div>
+									<label>Date de creation : </label>
+									<label th:text="${compte.dateCreation}" ></label>
+								</div>
+								<div>
+									<label>Solde actuel : </label>
+									<label th:text="${compte.solde}" class="text-success"></label>
+								</div>
+								<div>
+									<label>Type de compte : </label>
+									<label th:text="${compte.class.simpleName}" ></label>
+								</div>
+								<div th:if="${compte.class.simpleName}=='CompteCourant'">
+									<label>Decouvert : </label>
+									<label th:text="${compte.decouvert}" ></label>
+								</div>
+								<div th:if="${compte.class.simpleName}=='CompteEpargne'">
+									<label>Taux : </label>
+									<label th:text="${compte.taux}"></label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-primary" th:if="${compte}">
+							<div class="panel panel-heading">
+								Effectuer une Operation
+							</div>
+							<div class="panel panel-body" style="margin-left:2px">
+								<form th:action="@{/operation}" method="post">
+										<div>
+											<label>Numero De Compte :</label>
+											<input type="hidden" name="codeCompte" th:value="${compte.codeCompte}"/>
+											<label th:text="${compte.codeCompte}"></label>
+										</div>
+										<div>
+										    <input type="radio" name="type_operation" value="vers" checked="checked"
+										     onchange="document.getElementById('VirOnly').style.display='none'"/>
+											<label>Versement</label>
+											<input type="radio" name="type_operation" value="ret"
+											 onchange="document.getElementById('VirOnly').style.display='none'"/>
+											<label>Retrait</label>
+											<input type="radio" name="type_operation" value="vir"
+											 onchange="document.getElementById('VirOnly').style.display='block'"/>
+											<label>Virement</label>
+										</div>
+										<div>
+											<label>montant :</label>
+											<input type="text" name="montant" />
+										</div>
+										<div id="VirOnly">
+											<label>vers : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="text" name="codeCompte2" />
+										</div>
+										<div>
+											<input type="submit" value="Effectuer" class="btn btn-primary" />
+										</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel panel-primary" th:if="${compte}">
+							<div class="panel panel-heading">
+								Liste des Operations
+							</div>
+							<div class="panel panel-body" style="margin-left:2px">
+								<table class="table table-striped">
+									<thead>
+										<th><label>#</label></th>
+										<th><label>Date Operation</label></th>
+										<th><label>Montant</label></th>
+										<th><label>Type </label></th>
+									</thead>
+									<tbody>
+										<tr th:each="li:${listDesOperations}">
+											<td th:text="${li.numOperation}"></td>
+											<td th:text="${li.dateOperation}"></td>
+											<td th:text="${li.montant}"></td>
+											<td th:text="${li.class.simpleName}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<footer th:replace="template::footer"></footer>
+	</body>
+</html>
